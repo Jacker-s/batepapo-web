@@ -55,10 +55,20 @@ export default function ChatRoom({ username }) {
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
 
+  const [chatColor, setChatColor] = useState(null);
+
   useEffect(() => {
     // Register as joined
     set(ref(database, `user_rooms/${username}/${roomId}`), true);
     set(ref(database, `room_participants/${roomId}/${username}`), true);
+
+    // Fetch user profile for chatColor
+    get(ref(database, `users/${username}`)).then(snapshot => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        setChatColor(data.chatColor || null);
+      }
+    });
 
     // Fetch room name
     const roomRef = ref(database, `rooms/${roomId}`);
@@ -152,7 +162,8 @@ export default function ChatRoom({ username }) {
       senderName: username,
       text: currentMessage,
       timestamp: serverTimestamp(),
-      type: 'TEXT'
+      type: 'TEXT',
+      userColor: chatColor
     };
 
     if (currentWhisper) {
@@ -189,7 +200,8 @@ export default function ChatRoom({ username }) {
       text: '',
       timestamp: serverTimestamp(),
       type: 'STICKER',
-      stickerUrl: stickerUrl
+      stickerUrl: stickerUrl,
+      userColor: chatColor
     };
     
     if (currentWhisper) msgData.whisperTo = currentWhisper;
@@ -236,7 +248,8 @@ export default function ChatRoom({ username }) {
         senderName: username,
         text: '',
         timestamp: serverTimestamp(),
-        type: isVideo ? 'VIDEO' : 'IMAGE'
+        type: isVideo ? 'VIDEO' : 'IMAGE',
+        userColor: chatColor
       };
       
       if (isVideo) msgData.videoUrl = url;
@@ -328,7 +341,11 @@ export default function ChatRoom({ username }) {
                       setWhisperTarget(whisperTarget === msg.senderId ? null : msg.senderId);
                     }
                   }}
-                  style={{ cursor: isMe ? 'default' : 'pointer' }}
+                  style={{ 
+                    cursor: isMe ? 'default' : 'pointer',
+                    backgroundColor: msg.userColor && !msg.whisperTo ? msg.userColor : undefined,
+                    color: msg.userColor && !msg.whisperTo ? '#FFFFFF' : undefined
+                  }}
                 >
                   {msg.imageUrl && (
                     <img src={msg.imageUrl} alt="media" style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '8px', marginBottom: msg.text ? '8px' : '0', objectFit: 'contain' }} />

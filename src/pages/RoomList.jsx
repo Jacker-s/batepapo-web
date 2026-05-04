@@ -5,7 +5,7 @@ import { database } from '../firebase';
 import { 
   Heart, Users, Gamepad2, Film, Music, Palette, Flame, 
   Church, Trophy, Monitor, GraduationCap, Plane, Utensils, 
-  Car, Dog, HelpCircle, Settings, Newspaper, MessageSquare, LogOut, ChevronRight
+  Car, Dog, HelpCircle, Settings, Newspaper, MessageSquare, LogOut, ChevronRight, Search, X
 } from 'lucide-react';
 
 function getRoomVisuals(category, name) {
@@ -87,6 +87,7 @@ function RoomLastMessage({ roomId }) {
 export default function RoomList({ username }) {
   const [rooms, setRooms] = useState([]);
   const [joinedRoomIds, setJoinedRoomIds] = useState(new Set());
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const { roomId } = useParams();
 
@@ -135,16 +136,51 @@ export default function RoomList({ username }) {
     }
   };
 
-  const joinedRooms = rooms.filter(r => joinedRoomIds.has(r.id))
+  const filteredRooms = rooms.filter(r => {
+    const term = searchQuery.toLowerCase();
+    return (r.name || '').toLowerCase().includes(term) || (r.category || '').toLowerCase().includes(term);
+  });
+
+  const joinedRooms = filteredRooms.filter(r => joinedRoomIds.has(r.id))
     .sort((a, b) => (b.lastMessageTimestamp || 0) - (a.lastMessageTimestamp || 0));
   
-  const otherRooms = rooms.filter(r => !joinedRoomIds.has(r.id))
+  const otherRooms = filteredRooms.filter(r => !joinedRoomIds.has(r.id))
     .sort((a, b) => (b.participantCount || 0) - (a.participantCount || 0));
 
   const categories = [...new Set(otherRooms.map(r => r.category || 'Geral'))];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflowY: 'auto', backgroundColor: 'var(--bg-primary)' }}>
+      {/* Search Bar */}
+      <div style={{ padding: '16px', position: 'sticky', top: 0, backgroundColor: 'var(--bg-primary)', zIndex: 10, borderBottom: '1px solid var(--separator)' }}>
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <Search size={18} style={{ position: 'absolute', left: '12px', color: 'var(--text-muted)' }} />
+          <input 
+            type="text" 
+            placeholder="Pesquisar salas ou assuntos..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ 
+              width: '100%', 
+              padding: '10px 36px', 
+              backgroundColor: 'var(--bg-tertiary)', 
+              borderRadius: '12px', 
+              border: 'none', 
+              color: 'white', 
+              fontSize: '14px',
+              outline: 'none'
+            }} 
+          />
+          {searchQuery && (
+            <button 
+              onClick={() => setSearchQuery('')}
+              style={{ position: 'absolute', right: '12px', color: 'var(--text-muted)' }}
+            >
+              <X size={16} />
+            </button>
+          )}
+        </div>
+      </div>
       {/* Section: Joined Rooms */}
       <div style={{ padding: '16px 16px 8px', fontWeight: '800', color: '#4CAF50', fontSize: '12px', letterSpacing: '1.5px' }}>
         MINHAS SALAS

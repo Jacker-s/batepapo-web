@@ -178,7 +178,8 @@ export default function PrivateChat({ username }) {
       senderName: username,
       text: currentMessage,
       timestamp: serverTimestamp(),
-      type: 'TEXT'
+      type: 'TEXT',
+      userColor: myData.chatColor
     };
 
     try {
@@ -203,7 +204,8 @@ export default function PrivateChat({ username }) {
       text: '',
       timestamp: serverTimestamp(),
       type: 'STICKER',
-      stickerUrl: stickerUrl
+      stickerUrl: stickerUrl,
+      userColor: myData.chatColor
     };
 
     try {
@@ -242,7 +244,8 @@ export default function PrivateChat({ username }) {
         senderName: username,
         text: '',
         timestamp: serverTimestamp(),
-        type: isVideo ? 'VIDEO' : 'IMAGE'
+        type: isVideo ? 'VIDEO' : 'IMAGE',
+        userColor: myData.chatColor
       };
       
       if (isVideo) msgData.videoUrl = url;
@@ -309,7 +312,13 @@ export default function PrivateChat({ username }) {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexDirection: isMe ? 'row-reverse' : 'row' }}>
                   <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>{formatTime(msg.timestamp)}</span>
                 </div>
-                <div className="message-bubble">
+                <div 
+                  className="message-bubble"
+                  style={{ 
+                    backgroundColor: msg.userColor ? msg.userColor : undefined,
+                    color: msg.userColor ? '#FFFFFF' : undefined
+                  }}
+                >
                   {msg.imageUrl && (
                     <img src={msg.imageUrl} alt="media" style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '8px', marginBottom: msg.text ? '8px' : '0', objectFit: 'contain' }} />
                   )}
