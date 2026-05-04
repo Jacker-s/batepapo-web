@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ref, onValue, push, set, serverTimestamp, remove, update, get } from 'firebase/database';
 import { database } from '../firebase';
-import { Send, ArrowLeft, Trash2, EyeOff, Smile, Hash, Image as ImageIcon, Sticker } from 'lucide-react';
+import { Send, ArrowLeft, Trash2, EyeOff, Smile, Hash, Image as ImageIcon, Sticker, Reply, X } from 'lucide-react';
 import EmojiPicker from 'emoji-picker-react';
 import StickerPicker from '../components/StickerPicker';
 
@@ -47,6 +47,7 @@ export default function ChatRoom({ username }) {
   const [roomPhotoUrl, setRoomPhotoUrl] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const [whisperTarget, setWhisperTarget] = useState(null);
+  const [replyTarget, setReplyTarget] = useState(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showStickerPicker, setShowStickerPicker] = useState(false);
   const [typingUsers, setTypingUsers] = useState([]);
@@ -147,9 +148,11 @@ export default function ChatRoom({ username }) {
 
     const currentMessage = newMessage.trim();
     const currentWhisper = whisperTarget;
+    const currentReply = replyTarget;
 
     setNewMessage('');
     setWhisperTarget(null);
+    setReplyTarget(null);
     setShowEmojiPicker(false);
 
     const msgsRef = ref(database, `room_messages/${roomId}`);
@@ -170,6 +173,13 @@ export default function ChatRoom({ username }) {
       msgData.whisperTo = currentWhisper;
     }
 
+    if (currentReply) {
+      msgData.replyToId = currentReply.id;
+      msgData.replyToText = currentReply.text || (currentReply.imageUrl ? '📷 Imagem' : (currentReply.stickerUrl ? '🖼️ Figurinha' : 'Mídia'));
+      msgData.replyToName = currentReply.senderName;
+      msgData.replyToImageUrl = currentReply.imageUrl || null;
+    }
+
     try {
       await set(newMsgRef, msgData);
       
@@ -187,7 +197,9 @@ export default function ChatRoom({ username }) {
   const handleStickerSend = async (stickerUrl) => {
     setShowStickerPicker(false);
     const currentWhisper = whisperTarget;
+    const currentReply = replyTarget;
     setWhisperTarget(null);
+    setReplyTarget(null);
 
     const msgsRef = ref(database, `room_messages/${roomId}`);
     const newMsgRef = push(msgsRef);
@@ -205,6 +217,12 @@ export default function ChatRoom({ username }) {
     };
     
     if (currentWhisper) msgData.whisperTo = currentWhisper;
+    if (currentReply) {
+      msgData.replyToId = currentReply.id;
+      msgData.replyToText = currentReply.text || (currentReply.imageUrl ? '📷 Imagem' : (currentReply.stickerUrl ? '🖼️ Figurinha' : 'Mídia'));
+      msgData.replyToName = currentReply.senderName;
+      msgData.replyToImageUrl = currentReply.imageUrl || null;
+    }
 
     try {
       await set(newMsgRef, msgData);
@@ -233,7 +251,9 @@ export default function ChatRoom({ username }) {
 
     setIsUploading(true);
     const currentWhisper = whisperTarget;
+    const currentReply = replyTarget;
     setWhisperTarget(null);
+    setReplyTarget(null);
     setShowEmojiPicker(false);
 
     try {
@@ -255,6 +275,12 @@ export default function ChatRoom({ username }) {
       if (isVideo) msgData.videoUrl = url;
       else msgData.imageUrl = url;
       if (currentWhisper) msgData.whisperTo = currentWhisper;
+      if (currentReply) {
+        msgData.replyToId = currentReply.id;
+        msgData.replyToText = currentReply.text || (currentReply.imageUrl ? '📷 Imagem' : (currentReply.stickerUrl ? '🖼️ Figurinha' : 'Mídia'));
+        msgData.replyToName = currentReply.senderName;
+        msgData.replyToImageUrl = currentReply.imageUrl || null;
+      }
 
       await set(newMsgRef, msgData);
       
@@ -334,19 +360,29 @@ export default function ChatRoom({ username }) {
                   <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>{formatTime(msg.timestamp)}</span>
                   {msg.whisperTo && <EyeOff size={12} style={{ color: 'var(--primary)' }} />}
                 </div>
+                
                 <div 
                   className={`message-bubble ${msg.whisperTo ? 'message-whisper' : ''}`}
-                  onClick={() => {
-                    if (!isMe) {
-                      setWhisperTarget(whisperTarget === msg.senderId ? null : msg.senderId);
-                    }
-                  }}
                   style={{ 
-                    cursor: isMe ? 'default' : 'pointer',
+                    cursor: 'default',
                     backgroundColor: msg.userColor && !msg.whisperTo ? msg.userColor : undefined,
-                    color: msg.userColor && !msg.whisperTo ? '#FFFFFF' : undefined
+                    color: msg.userColor && !msg.whisperTo ? '#FFFFFF' : undefined,
+                    position: 'relative',
+                    paddingTop: msg.replyToId ? '40px' : '12px'
                   }}
                 >
+                  {msg.replyToId && (
+                    <div style={{ 
+                      position: 'absolute', top: '4px', left: '4px', right: '4px', 
+                      background: 'rgba(0,0,0,0.2)', padding: '4px 8px', borderRadius: '4px',
+                      fontSize: '11px', borderLeft: '3px solid var(--primary)',
+                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+                    }}>
+                      <div style={{ fontWeight: 'bold', color: 'var(--primary)' }}>{msg.replyToName}</div>
+                      <div style={{ opacity: 0.8 }}>{msg.replyToText}</div>
+                    </div>
+                  )}
+
                   {msg.imageUrl && (
                     <img src={msg.imageUrl} alt="media" style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '8px', marginBottom: msg.text ? '8px' : '0', objectFit: 'contain' }} />
                   )}
@@ -358,14 +394,22 @@ export default function ChatRoom({ username }) {
                   )}
                   {msg.text}
                   
-                  {isMe && (
-                     <button 
-                       onClick={(e) => { e.stopPropagation(); handleDeleteMessage(msg.id); }}
-                       style={{ position: 'absolute', right: isMe ? 'auto' : '-30px', left: isMe ? '-30px' : 'auto', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer' }}
-                     >
-                       <Trash2 size={16} />
-                     </button>
-                  )}
+                  <div style={{ position: 'absolute', right: isMe ? 'auto' : '-40px', left: isMe ? '-40px' : 'auto', top: '50%', transform: 'translateY(-50%)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); setReplyTarget(msg); }}
+                      style={{ color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}
+                    >
+                      <Reply size={16} />
+                    </button>
+                    {isMe && (
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); handleDeleteMessage(msg.id); }}
+                        style={{ color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -389,6 +433,18 @@ export default function ChatRoom({ username }) {
         <div style={{ padding: '8px 24px', backgroundColor: 'var(--bg-tertiary)', borderTop: '1px solid var(--separator)', fontSize: '12px', color: '#E1BEE7', display: 'flex', justifyContent: 'space-between' }}>
           <span>Sussurrando para: <strong>{whisperTarget}</strong></span>
           <button onClick={() => setWhisperTarget(null)} style={{ color: 'var(--text-muted)' }}>Cancelar</button>
+        </div>
+      )}
+
+      {replyTarget && (
+        <div style={{ padding: '8px 24px', backgroundColor: 'rgba(255, 42, 104, 0.1)', borderTop: '1px solid var(--primary)', fontSize: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ borderLeft: '3px solid var(--primary)', paddingLeft: '8px', overflow: 'hidden' }}>
+            <div style={{ fontWeight: 'bold', color: 'var(--primary)' }}>Respondendo a {replyTarget.senderName}</div>
+            <div style={{ opacity: 0.8, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {replyTarget.text || 'Mídia'}
+            </div>
+          </div>
+          <button onClick={() => setReplyTarget(null)} style={{ color: 'var(--text-muted)' }}><X size={16} /></button>
         </div>
       )}
 
