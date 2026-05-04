@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ref, onValue, push, set, serverTimestamp, remove, update } from 'firebase/database';
+import { ref, onValue, push, set, serverTimestamp, remove, update, get } from 'firebase/database';
 import { database } from '../firebase';
 import { Send, ArrowLeft, Trash2, EyeOff, Smile, Hash, Image as ImageIcon, Sticker } from 'lucide-react';
 import EmojiPicker from 'emoji-picker-react';
