@@ -274,7 +274,7 @@ export default function PrivateChat({ username }) {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
       <div className="chat-header">
         <button className="mobile-only" onClick={() => navigate('/app')} style={{ color: 'var(--text-main)', marginRight: '16px', background: 'none', border: 'none', cursor: 'pointer', display: 'flex' }}>
           <ArrowLeft size={24} />

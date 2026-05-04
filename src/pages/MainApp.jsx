@@ -35,7 +35,7 @@ export default function MainApp({ user, username }) {
   const isChatOpen = location.pathname.includes('/app/room/') || location.pathname.includes('/app/chat/');
 
   return (
-    <div className="app-container">
+    <div className="app-container" style={{ minHeight: 0 }}>
       {/* Sidebar - Hidden on mobile if chat is open */}
       <div className={`sidebar ${isChatOpen ? 'hidden-on-mobile' : ''}`}>
         <div className="room-header" style={{ borderBottom: 'none', paddingBottom: '8px' }}>
@@ -88,7 +88,7 @@ export default function MainApp({ user, username }) {
           <Route 
             path="/" 
             element={
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-muted)' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: 0, color: 'var(--text-muted)' }}>
                 <MessageSquare size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
                 <h2>Selecione uma sala ou conversa para começar</h2>
               </div>
