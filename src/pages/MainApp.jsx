@@ -5,7 +5,8 @@ import ChatList from './ChatList';
 import ChatRoom from './ChatRoom';
 import PrivateChat from './PrivateChat';
 import { LogOut, MessageSquare } from 'lucide-react';
-import { auth } from '../firebase';
+import { auth, database } from '../firebase';
+import { ref, remove } from 'firebase/database';
 
 export default function MainApp({ user, username }) {
   const navigate = useNavigate();
@@ -13,8 +14,22 @@ export default function MainApp({ user, username }) {
   const [activeTab, setActiveTab] = useState('rooms'); // 'rooms' or 'chats'
   
   const handleLogout = async () => {
-    await auth.signOut();
-    navigate('/');
+    try {
+      // 1. Delete user node to free up username
+      await remove(ref(database, `users/${username}`));
+      // 2. Delete UID mapping
+      if (user?.uid) {
+        await remove(ref(database, `uid_to_username/${user.uid}`));
+      }
+      // 3. Sign out
+      await auth.signOut();
+      navigate('/');
+    } catch (err) {
+      console.error("Erro ao fazer logout:", err);
+      // Fallback signout
+      await auth.signOut();
+      navigate('/');
+    }
   };
 
   const isChatOpen = location.pathname.includes('/app/room/') || location.pathname.includes('/app/chat/');
