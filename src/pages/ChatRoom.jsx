@@ -56,6 +56,10 @@ export default function ChatRoom({ username }) {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
+    // Register as joined
+    set(ref(database, `user_rooms/${username}/${roomId}`), true);
+    set(ref(database, `room_participants/${roomId}/${username}`), true);
+
     // Fetch room name
     const roomRef = ref(database, `rooms/${roomId}`);
     const unRoom = onValue(roomRef, (snapshot) => {
@@ -89,8 +93,8 @@ export default function ChatRoom({ username }) {
       }
     });
 
-    // Fetch typing users
-    const typingRef = ref(database, `roomTyping/${roomId}`);
+    // Fetch typing users - Parity with Android path 'room_typing'
+    const typingRef = ref(database, `room_typing/${roomId}`);
     const unTyping = onValue(typingRef, (snapshot) => {
       if (snapshot.exists()) {
         const typingData = snapshot.val();
@@ -106,7 +110,7 @@ export default function ChatRoom({ username }) {
       unMsgs();
       unTyping();
       // Cleanup own typing status
-      set(ref(database, `roomTyping/${roomId}/${username}`), false);
+      set(ref(database, `room_typing/${roomId}/${username}`), false);
     };
   }, [roomId, username]);
 
@@ -114,12 +118,12 @@ export default function ChatRoom({ username }) {
     setNewMessage(e.target.value);
     
     // Set typing to true
-    set(ref(database, `roomTyping/${roomId}/${username}`), true);
+    set(ref(database, `room_typing/${roomId}/${username}`), true);
     
     // Clear after 2 seconds
     if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
     typingTimeoutRef.current = setTimeout(() => {
-      set(ref(database, `roomTyping/${roomId}/${username}`), false);
+      set(ref(database, `room_typing/${roomId}/${username}`), false);
     }, 2000);
   };
 

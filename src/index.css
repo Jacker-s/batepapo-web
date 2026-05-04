@@ -409,3 +409,31 @@ button {
   transform: none;
   cursor: not-allowed;
 }
+.room-item.joined {
+  background-color: rgba(76, 175, 80, 0.05);
+}
+.room-item.joined:hover {
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.leave-room-btn {
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.leave-room-btn:hover {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #F44336;
+}
+
+.room-meta {
+  margin-top: 4px;
+}
+
+.room-item:active {
+  transform: scale(0.98);
+}
