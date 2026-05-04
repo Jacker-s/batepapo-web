@@ -196,7 +196,7 @@ export default function RoomList({ username }) {
 
       {/* Section: Categories / Other Rooms */}
       {categories.map(cat => (
-        <div key={cat}>
+        <div key={cat} style={{ marginBottom: '16px' }}>
           <div style={{ padding: '24px 16px 8px', fontWeight: '800', color: 'var(--primary)', fontSize: '12px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>
             {cat}
           </div>
