@@ -147,6 +147,7 @@ export default function RoomList({ username }) {
   const otherRooms = filteredRooms.filter(r => !joinedRoomIds.has(r.id))
     .sort((a, b) => (b.participantCount || 0) - (a.participantCount || 0));
 
+  const popularRooms = otherRooms.slice(0, 5);
   const categories = [...new Set(otherRooms.map(r => r.category || 'Geral'))];
 
   return (
@@ -228,6 +229,51 @@ export default function RoomList({ username }) {
             </div>
           ))}
         </div>
+      )}
+
+      {/* Section: Popular Rooms */}
+      {!searchQuery && popularRooms.length > 0 && (
+        <>
+          <div style={{ padding: '24px 16px 8px', fontWeight: '800', color: '#FF9800', fontSize: '12px', letterSpacing: '1.5px' }}>
+            SALAS POPULARES
+          </div>
+          <div className="room-list">
+            {popularRooms.map(room => (
+              <div 
+                key={room.id} 
+                className={`room-item ${roomId === room.id ? 'active' : ''}`}
+                onClick={() => navigate(`/app/room/${room.id}`)}
+              >
+                <div 
+                  className="room-icon" 
+                  style={{ 
+                    background: room.photoUrl ? 'transparent' : (getRoomVisuals(room.category, room.name).color + '26')
+                  }}
+                >
+                  {room.photoUrl ? (
+                    <img src={room.photoUrl} alt="room" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (() => {
+                    const visuals = getRoomVisuals(room.category, room.name);
+                    const IconComp = visuals.Icon;
+                    return <IconComp size={24} color={visuals.color} />;
+                  })()}
+                </div>
+                <div className="room-info">
+                  <div className="room-name">{room.name}</div>
+                  <div className="room-meta" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: 'var(--text-muted)' }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Users size={12} /> {room.participantCount || 0}
+                    </span>
+                    <span style={{ color: getRoomVisuals(room.category, room.name).color, fontWeight: 'bold', fontSize: '10px' }}>
+                      {room.category || 'Geral'}
+                    </span>
+                  </div>
+                </div>
+                <ChevronRight size={18} color="var(--text-muted)" />
+              </div>
+            ))}
+          </div>
+        </>
       )}
 
       {/* Section: Categories / Other Rooms */}
