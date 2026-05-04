@@ -300,12 +300,13 @@ export default function PrivateChat({ username }) {
           return (
             <div 
               key={msg.id} 
+              className="message-item"
               style={{ 
                 display: 'flex', 
                 gap: '8px', 
                 alignSelf: isMe ? 'flex-end' : 'flex-start', 
-                maxWidth: '85%', 
-                flexDirection: isMe ? 'row-reverse' : 'row' 
+                flexDirection: isMe ? 'row-reverse' : 'row',
+                width: '100%'
               }}
             >
               <div className={`message-wrapper ${isMe ? 'message-me' : 'message-other'}`} style={{ maxWidth: '100%' }}>

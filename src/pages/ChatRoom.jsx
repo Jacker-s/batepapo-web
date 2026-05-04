@@ -334,16 +334,17 @@ export default function ChatRoom({ username }) {
           return (
             <div 
               key={msg.id} 
+              className="message-item"
               style={{ 
                 display: 'flex', 
                 gap: '8px', 
                 alignSelf: isMe ? 'flex-end' : 'flex-start', 
-                maxWidth: '85%', 
-                flexDirection: isMe ? 'row-reverse' : 'row' 
+                flexDirection: isMe ? 'row-reverse' : 'row',
+                width: '100%'
               }}
             >
               <div 
-                className="room-icon" 
+                className="room-icon mobile-hidden" 
                 onClick={() => { if (!isMe) navigate(`/app/chat/${msg.senderId}`); }}
                 style={{ width: '36px', height: '36px', fontSize: '14px', flexShrink: 0, overflow: 'hidden', alignSelf: 'flex-end', marginBottom: '8px', cursor: isMe ? 'default' : 'pointer' }}
               >
