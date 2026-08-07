@@ -250,9 +250,9 @@ export default function Login({ onLogin }) {
   const [isAvailable, setIsAvailable] = useState(null);
   const [error, setError] = useState('');
   const [showPremiumModal, setShowPremiumModal] = useState(false);
-  const [loginMode, setLoginMode] = useState('guest'); // 'guest' ou 'credentials'
+  const [loginMode, setLoginMode] = useState('credentials'); // 'guest' ou 'credentials'
   const [password, setPassword] = useState('');
-  const loginActionLabel = loading ? 'ENTRANDO...' : 'ENTRAR NO BATE PAPO';
+  const loginActionLabel = loading ? 'ENTRANDO...' : loginMode === 'credentials' ? 'ENTRAR NA MINHA CONTA' : 'ENTRAR COMO CONVIDADO';
 
   useEffect(() => {
     if (loginMode !== 'guest') {
@@ -466,7 +466,11 @@ export default function Login({ onLogin }) {
       }
     } catch (err) {
       console.error(err);
-      setError('Erro ao entrar. Tente novamente.');
+      if (err?.code === 'auth/unauthorized-domain') {
+        setError('Este domínio ainda não foi autorizado no Firebase. Tente novamente em alguns minutos.');
+      } else {
+        setError('Erro ao entrar. Tente novamente.');
+      }
     } finally {
       setLoading(false);
     }
@@ -565,21 +569,6 @@ export default function Login({ onLogin }) {
           <div style={{ display: 'flex', background: 'rgba(255,255,255,0.04)', borderRadius: '16px', padding: '4px', marginBottom: '24px' }}>
             <button
               type="button"
-              onClick={() => { setLoginMode('guest'); setError(''); }}
-              style={{
-                flex: 1, padding: '12px', borderRadius: '12px', border: 'none', fontWeight: 800, fontSize: '13px',
-                cursor: 'pointer', transition: 'all 0.2s',
-                background: loginMode === 'guest' ? 'var(--primary)' : 'transparent',
-                color: loginMode === 'guest' ? 'white' : 'rgba(255,255,255,0.5)',
-                boxShadow: loginMode === 'guest' ? '0 8px 18px rgba(255,42,104,0.24)' : 'none',
-                outline: 'none',
-                borderStyle: 'none'
-              }}
-            >
-              Convidado / Cadastrar
-            </button>
-            <button
-              type="button"
               onClick={() => { setLoginMode('credentials'); setError(''); }}
               style={{
                 flex: 1, padding: '12px', borderRadius: '12px', border: 'none', fontWeight: 800, fontSize: '13px',
@@ -591,8 +580,29 @@ export default function Login({ onLogin }) {
                 borderStyle: 'none'
               }}
             >
-              Entrar com Senha
+              Entrar na minha conta
             </button>
+            <button
+              type="button"
+              onClick={() => { setLoginMode('guest'); setError(''); }}
+              style={{
+                flex: 1, padding: '12px', borderRadius: '12px', border: 'none', fontWeight: 800, fontSize: '13px',
+                cursor: 'pointer', transition: 'all 0.2s',
+                background: loginMode === 'guest' ? 'var(--primary)' : 'transparent',
+                color: loginMode === 'guest' ? 'white' : 'rgba(255,255,255,0.5)',
+                boxShadow: loginMode === 'guest' ? '0 8px 18px rgba(255,42,104,0.24)' : 'none',
+                outline: 'none',
+                borderStyle: 'none'
+              }}
+            >
+              Convidado / criar conta
+            </button>
+          </div>
+
+          <div style={{ margin: '-10px 0 20px', color: 'var(--text-secondary)', fontSize: '12px', lineHeight: 1.5 }}>
+            {loginMode === 'credentials'
+              ? 'Use o mesmo nome e senha definidos no app. Contas anônimas sem senha precisam ser protegidas no app antes de usar o site.'
+              : 'Use este modo apenas para criar uma nova conta web ou entrar como convidado.'}
           </div>
         
         <div style={{ textAlign: 'left', marginBottom: '24px' }}>
