@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.jack.friend",
+      "sha256_cert_fingerprints": [
+        "AF:55:A6:49:4E:B0:0A:6E:1E:60:E5:F7:8B:88:85:31:9A:CA:89:9B:36:8E:7F:B8:51:6A:D9:5A:7C:05:6D:78"
+      ]
+    }
+  }
+]
