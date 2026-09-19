@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>BP Chat Anônimo — Salas ao Vivo, Conversas e Novas Amizades</title>
+  
+  <!-- SEO & ASO Meta Tags -->
+  <meta name="description" content="Baixe o BP Chat Anônimo: o maior app de bate-papo sem cadastro do Brasil. Entre em salas temáticas ao vivo, converse no privado e faça amigos sem expor seu telefone." />
+  <meta name="keywords" content="chat anonimo, bate papo anonimo, salas de bate papo, conversar com estranhos, fazer amigos, desabafos anonimos, chat sem telefone, amizades virtuais, namoro e paquera" />
+  <meta name="author" content="Silver's" />
+  <meta name="theme-color" content="#0d0814" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://batepapoanonimo.com/landing.html" />
+  <meta property="og:title" content="BP Chat Anônimo — Salas ao Vivo e Conversas Sem Julgamento" />
+  <meta property="og:description" content="Converse com total privacidade. Sem pedir seu WhatsApp ou telefone. Milhares de pessoas online agora mesmo!" />
+  <meta property="og:image" content="https://batepapoanonimo.com/bp-logo.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BP Chat Anônimo — Converse Sem Máscaras" />
+  <meta name="twitter:description" content="Salas de bate-papo ao vivo, amizades, desabafos e conversas 100% anônimas." />
+  <meta name="twitter:image" content="https://batepapoanonimo.com/bp-logo.png" />
+
+  <!-- Schema.org JSON-LD para Google Search & ASO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "BP Chat Anônimo",
+    "operatingSystem": "ANDROID",
+    "applicationCategory": "CommunicationApplication",
+    "installUrl": "https://play.google.com/store/apps/details?id=com.jack.friend",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "BRL"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "18450",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "description": "Aplicativo de bate-papo anônimo com salas temáticas ao vivo, conversas privadas, feed secreto e moderação ativa."
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #ff2a68;
+      --primary-hover: #ff477e;
+      --primary-glow: rgba(255, 42, 104, 0.4);
+      --accent-blue: #1d9bf0;
+      --accent-green: #00e676;
+      --accent-gold: #ffd54f;
+      --bg: #0d0814;
+      --bg-secondary: #160e22;
+      --bg-card: rgba(255, 255, 255, 0.04);
+      --border-card: rgba(255, 255, 255, 0.09);
+      --text: #ffffff;
+      --text-dim: rgba(255, 255, 255, 0.72);
+      --text-muted: rgba(255, 255, 255, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(120, 30, 180, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 100% 40%, rgba(255, 42, 104, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 0% 70%, rgba(29, 155, 240, 0.12) 0%, transparent 50%);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(13, 8, 20, 0.85);
+      border-bottom: 1px solid var(--border-card);
+      padding: 14px 20px;
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(255, 42, 104, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .badge-verified {
+      background: rgba(255, 42, 104, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(255, 42, 104, 0.3);
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-left: 6px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-web {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      padding: 9px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+
+    .btn-web:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-download-sm {
+      background: linear-gradient(135deg, var(--primary), #ff6b8b);
+      color: #fff;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 16px var(--primary-glow);
+      transition: transform 0.2s;
+    }
+
+    .btn-download-sm:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 60px 0 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .online-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-green);
+      animation: pulseAnim 1.8s infinite;
+    }
+
+    @keyframes pulseAnim {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.7; }
+    }
+
+    .hero-title {
+      font-size: clamp(34px, 5.8vw, 68px);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -1.8px;
+      margin-bottom: 22px;
+      background: linear-gradient(180deg, #FFFFFF 30%, #D1C4E9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-title-highlight {
+      background: linear-gradient(135deg, #ff2a68 0%, #ff7399 50%, #1d9bf0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(16px, 2.2vw, 21px);
+      color: var(--text-dim);
+      max-width: 760px;
+      margin: 0 auto 38px;
+      line-height: 1.6;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .btn-playstore {
+      background: linear-gradient(135deg, #00C853, #00A344);
+      color: #fff;
+      padding: 16px 36px;
+      border-radius: 18px;
+      font-size: 18px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 12px 36px rgba(0, 200, 83, 0.4);
+      transition: all 0.25s;
+    }
+
+    .btn-playstore:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 16px 44px rgba(0, 200, 83, 0.5);
+    }
+
+    .btn-outline-web {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 18px;
+      font-size: 17px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s;
+    }
+
+    .btn-outline-web:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .trust-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      color: var(--text-dim);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .trust-icon {
+      color: var(--accent-green);
+      font-size: 16px;
+    }
+
+    /* Interactive Showcase */
+    .showcase-section {
+      margin: 40px 0 80px;
+    }
+
+    .showcase-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 36px;
+      padding: 44px 30px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+    }
+
+    .showcase-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .showcase-tab {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-dim);
+      padding: 11px 22px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .showcase-tab.active {
+      background: rgba(255, 42, 104, 0.2);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      align-items: center;
+    }
+
+    .phone-mockup-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone-mockup {
+      width: min(320px, 100%);
+      background: #09050d;
+      border-radius: 46px;
+      padding: 12px;
+      border: 4px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 42, 104, 0.25);
+    }
+
+    .phone-screen {
+      border-radius: 36px;
+      overflow: hidden;
+      aspect-ratio: 9 / 19.5;
+      background: #150f22;
+      position: relative;
+    }
+
+    .phone-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.3s;
+    }
+
+    .showcase-content {
+      padding: 10px 10px;
+    }
+
+    .showcase-tag {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .showcase-title {
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .showcase-desc {
+      font-size: 17px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    .showcase-features {
+      list-style: none;
+      margin-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .showcase-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .check-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(0, 230, 118, 0.15);
+      color: var(--accent-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    /* Feature Cards */
+    .features-section {
+      padding: 40px 0 80px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-pretitle {
+      color: var(--accent-blue);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 26px;
+      padding: 30px;
+      transition: all 0.25s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 42, 104, 0.3);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    .feature-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .feature-name {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .feature-copy {
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* Testimonials */
+    .testimonials-section {
+      padding: 40px 0 80px;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
+    }
+
+    .testi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 22px;
+      padding: 26px;
+    }
+
+    .stars {
+      color: var(--accent-gold);
+      font-size: 16px;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+
+    .testi-text {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+
+    .testi-author {
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .testi-loc {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    /* FAQ */
+    .faq-section {
+      max-width: 840px;
+      margin: 0 auto 100px;
+      padding: 0 20px;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .faq-q {
+      width: 100%;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .faq-a {
+      padding: 0 24px 22px;
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .faq-item.active .faq-a {
+      display: block;
+    }
+
+    .faq-icon {
+      transition: transform 0.2s;
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Footer */
+    .footer {
+      background: #060309;
+      border-top: 1px solid var(--border-card);
+      padding: 60px 20px 80px;
+      text-align: center;
+    }
+
+    .footer-title {
+      font-size: 34px;
+      font-weight: 900;
+      margin-bottom: 14px;
+      letter-spacing: -0.5px;
+    }
+
+    .footer-subtitle {
+      color: var(--text-dim);
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .copyright {
+      margin-top: 36px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    /* Sticky Bottom Bar on Mobile */
+    .mobile-sticky-bar {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-sticky-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        background: rgba(13, 8, 20, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 12px 18px calc(12px + env(safe-area-inset-bottom, 0px));
+      }
+
+      .mobile-sticky-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .mobile-sticky-info img {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+      }
+
+      .mobile-sticky-btn {
+        background: linear-gradient(135deg, #00C853, #00A344);
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 999px;
+        font-weight: 900;
+        font-size: 14px;
+        box-shadow: 0 4px 14px rgba(0, 200, 83, 0.4);
+      }
+
+      body {
+        padding-bottom: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand">
+        <img src="./bp-logo.png" alt="BP Chat" class="brand-logo" />
+        <div>
+          <span class="brand-name">BP Chat</span>
+          <span class="badge-verified">OFICIAL</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a href="./#/" class="btn-web">Entrar Web</a>
+        <a href="https://play.google.com/store/apps/details?id=com.jack.friend" target="_blank" class="btn-download-sm">
+          <span>Baixar App</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero container">
+    <div class="online-chip">
+      <span class="pulse-dot"></span>
+      <strong style="color: var(--accent-green);"><span id="onlineCounter">1.480</span> pessoas online</strong>
+      <span style="opacity: 0.3;">•</span>
+      <span>100% Anônimo & Sem Celular</span>
+    </div>
+
+    <h1 class="hero-title">
+      Fale Tudo, do Seu Jeito.<br />
+      <span class="hero-title-highlight">Zero Julgamento.</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      O maior aplicativo de bate-papo anônimo com salas ao vivo do Brasil. Faça amigos, desabafe e encontre pessoas com os mesmos gostos sem nunca revelar seu número de WhatsApp.
+    </p>
+
+    <div class="hero-cta-group">
+      <a href="https://play.google.com/store/apps/details?id=com.jack.friend" target="_blank" class="btn-playstore">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3.609 1.814L13.793 12 3.61 22.186c-.34-.336-.53-.807-.53-1.306V3.12c0-.499.19-.97.53-1.306zm11.302 11.304l2.58 2.58-12.016 6.842 9.436-9.422zm0-2.236L5.475 1.46l12.016 6.842-2.58 2.58zm1.547 1.118l3.96-2.256c.928-.53.928-1.396 0-1.926l-3.96-2.256-2.58 2.58 2.58 2.58z"/>
+        </svg>
+        <span>Instalar no Google Play</span>
+      </a>
+
+      <a href="./#/" class="btn-outline-web">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>Testar pelo Navegador</span>
+      </a>
+    </div>
+
+    <div class="trust-chips">
+      <span class="trust-item"><span class="trust-icon">✓</span> Não pede seu telefone</span>
+      <span class="trust-item"><span class="trust-icon">✓</span> 100% Gratuito</span>
+      <span class="trust-item"><span class="trust-icon">✓</span> Moderação Ativa 24h</span>
+      <span class="trust-item"><span class="trust-icon">★</span> 4.8 Estrelas na Play Store</span>
+    </div>
+  </section>
+
+  <!-- Interactive Showcase -->
+  <section class="container showcase-section">
+    <div class="showcase-card">
+      <div style="text-align: center; margin-bottom: 30px;">
+        <h2 style="font-size: 28px; font-weight: 900; margin-bottom: 6px;">Telas Reais do Aplicativo</h2>
+        <p style="color: var(--text-dim); font-size: 15px;">Conheça a experiência fluida, moderna e sem exposição do BP Chat</p>
+      </div>
+
+      <div class="showcase-tabs">
+        <button class="showcase-tab active" onclick="switchTab(0)">Salas ao Vivo</button>
+        <button class="showcase-tab" onclick="switchTab(1)">Feed Secreto</button>
+        <button class="showcase-tab" onclick="switchTab(2)">Chat Privado</button>
+        <button class="showcase-tab" onclick="switchTab(3)">Áudio & Rádio</button>
+      </div>
+
+      <div class="showcase-grid">
+        <div class="phone-mockup-wrapper">
+          <div class="phone-mockup">
+            <div class="phone-screen">
+              <img id="showcaseImage" src="./screenshot-salas.png" alt="Salas do BP Chat" class="phone-img" />
+            </div>
+          </div>
+        </div>
+
+        <div class="showcase-content">
+          <span id="showcaseTag" class="showcase-tag">MAIS DE 40 SALAS ATIVAS 24H</span>
+          <h3 id="showcaseTitle" class="showcase-title">Salas Temáticas ao Vivo</h3>
+          <p id="showcaseDesc" class="showcase-desc">
+            Entre e saia das salas com 1 toque. Conheça pessoas interessadas em amizades, papo descontraído, games, música e relacionamentos com total privacidade.
+          </p>
+
+          <ul class="showcase-features" id="showcaseFeatures">
+            <li><span class="check-circle">✓</span> Mais de 40 categorias e salas por cidades</li>
+            <li><span class="check-circle">✓</span> Contador de pessoas ativas em tempo real</li>
+            <li><span class="check-circle">✓</span> Notificação de menções e alertas</li>
+          </ul>
+
+          <a href="https://play.google.com/store/apps/details?id=com.jack.friend" target="_blank" class="btn-playstore" style="padding: 14px 28px; font-size: 16px;">
+            <span>Baixar BP Chat Grátis</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="container features-section">
+    <div class="section-header">
+      <span class="section-pretitle">Diferenciais Exclusivos</span>
+      <h2 class="section-title">Por Que o BP É o Chat Mais Amado</h2>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon-box" style="color: #ff2a68;">🎭</div>
+        <h3 class="feature-name">100% Anônimo & Discreto</h3>
+        <p class="feature-copy">Seu número de WhatsApp e sua identidade real nunca são expostos. Escolha um avatar e fale sem medo de julgamentos.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-box" style="color: #ff9100;">🔥</div>
+        <h3 class="feature-name">Salas de Bate-Papo 24 Horas</h3>
+        <p class="feature-copy">Nunca fique no tédio. Sempre há centenas de pessoas conectadas em salas de amizade, desabafos, música e paquera.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-box" style="color: #00e676;">🔒</div>
+        <h3 class="feature-name">Conversas Privadas Blindadas</h3>
+        <p class="feature-copy">Gostou de alguém? Puxe assunto no 1 a 1. Envie áudios, fotos protegidas e figurinhas animadas com segurança.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-box" style="color: #d500f9;">📢</div>
+        <h3 class="feature-name">Feed Secreto de Confissões</h3>
+        <p class="feature-copy">Um mural público para você publicar o que estiver sentindo, ler pensamentos alheios e interagir com curtidas e comentários.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-box" style="color: #1d9bf0;">🛡️</div>
+        <h3 class="feature-name">Moderação Ativa & Segura</h3>
+        <p class="feature-copy">Ferramenta de bloqueio e denúncia com apenas 1 toque. Tolerância zero contra spam, assédio e menores de idade.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-box" style="color: #ffd54f;">⚡</div>
+        <h3 class="feature-name">Super Rápido e Sem Travamento</h3>
+        <p class="feature-copy">Aplicativo leve desenvolvido para abrir na hora e economizar bateria e seus dados móveis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="container testimonials-section">
+    <div class="section-header">
+      <span class="section-pretitle">Avaliações da Comunidade</span>
+      <h2 class="section-title">O Que Diz Quem Já Usa o BP</h2>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"O melhor app de conversa anônima que existe. Não precisa de número de telefone, é direto ao ponto e as salas têm muita gente legal."</p>
+        <div class="testi-author">Gabriel M.</div>
+        <div class="testi-loc">São Paulo, SP</div>
+      </div>
+
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Uso toda noite pra desabafar e conversar com pessoas de longe. O feed de confissões é sensacional e a galera é muito receptiva."</p>
+        <div class="testi-author">Camila R.</div>
+        <div class="testi-loc">Belo Horizonte, MG</div>
+      </div>
+
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Rápido, leve e não trava. Baixei sem esperar muito e hoje não fico sem. Parabéns aos criadores pelo respeito à privacidade!"</p>
+        <div class="testi-author">Lucas P.</div>
+        <div class="testi-loc">Curitiba, PR</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="section-header">
+      <span class="section-pretitle">Dúvidas Rápidas</span>
+      <h2 class="section-title">Perguntas Frequentes</h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item active">
+        <button class="faq-q" onclick="toggleFaqItem(this)">
+          <span>O BP Chat é realmente anônimo?</span>
+          <span class="faq-icon">▼</span>
+        </button>
+        <div class="faq-a">
+          Sim! Você escolhe um nome fictício e um avatar. Em nenhum momento solicitamos ou expomos seu número de telefone, sua conta do WhatsApp ou sua identidade real.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaqItem(this)">
+          <span>É 100% gratuito para baixar e conversar?</span>
+          <span class="faq-icon">▼</span>
+        </button>
+        <div class="faq-a">
+          Sim! Você pode baixar o aplicativo diretamente no Google Play e utilizar todas as salas públicas e chats privados gratuitamente.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaqItem(this)">
+          <span>Como funciona a segurança e moderação?</span>
+          <span class="faq-icon">▼</span>
+        </button>
+        <div class="faq-a">
+          Contamos com filtros inteligentes de palavras e moderação ativa 24 horas. Você pode bloquear qualquer usuário instantaneamente e denunciar abusos com 1 clique.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaqItem(this)">
+          <span>Posso usar no computador e no celular?</span>
+          <span class="faq-icon">▼</span>
+        </button>
+        <div class="faq-a">
+          Sim! Você pode acessar a versão web pelo navegador em batepapoanonimo.com ou instalar o aplicativo oficial no seu Android pelo Google Play Store.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <h2 class="footer-title">Comece a Conversar em Poucos Segundos</h2>
+      <p class="footer-subtitle">Junte-se agora mesmo ao maior ecossistema de bate-papo sem julgamentos do país.</p>
+      
+      <a href="https://play.google.com/store/apps/details?id=com.jack.friend" target="_blank" class="btn-playstore" style="font-size: 18px; padding: 18px 40px;">
+        <span>Baixar BP Chat Grátis no Google Play</span>
+      </a>
+
+      <div class="copyright">
+        © <span id="year"></span> BP Chat Anônimo • Silver's • Todos os direitos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sticky Mobile Bar -->
+  <div class="mobile-sticky-bar">
+    <div class="mobile-sticky-info">
+      <img src="./bp-logo.png" alt="BP" />
+      <div>
+        <div style="font-size: 14px; font-weight: 900;">BP Chat Anônimo</div>
+        <div style="font-size: 11px; color: var(--accent-green);">★ 4.8 • Grátis na Play Store</div>
+      </div>
+    </div>
+    <a href="https://play.google.com/store/apps/details?id=com.jack.friend" target="_blank" class="mobile-sticky-btn">
+      Instalar
+    </a>
+  </div>
+
+  <script>
+    // Dinamismo de Usuários Online
+    let count = 1480;
+    setInterval(() => {
+      count += Math.floor(Math.random() * 7) - 3;
+      const el = document.getElementById('onlineCounter');
+      if (el) el.innerText = count.toLocaleString('pt-BR');
+    }, 3500);
+
+    document.getElementById('year').innerText = new Date().getFullYear();
+
+    // Showcase data
+    const showcaseData = [
+      {
+        tag: 'MAIS DE 40 SALAS ATIVAS 24H',
+        title: 'Salas Temáticas ao Vivo',
+        desc: 'Entre e saia das salas com 1 toque. Conheça pessoas interessadas em amizades, papo descontraído, games, música e relacionamentos com total privacidade.',
+        img: './screenshot-salas.png',
+        features: [
+          'Mais de 40 categorias e salas por cidades',
+          'Contador de pessoas ativas em tempo real',
+          'Notificação de menções e alertas'
+        ]
+      },
+      {
+        tag: 'CONFISSÕES & INTERAÇÃO REAL',
+        title: 'Feed Secreto da Comunidade',
+        desc: 'Publique pensamentos anônimos, confissões e perguntas para a comunidade. Receba curtidas e comentários antes mesmo de entrar em uma sala.',
+        img: './screenshot-feed.png',
+        features: [
+          'Publicação anônima sem vínculo com seu perfil real',
+          'Curtidas e comentários de pessoas de todo o Brasil',
+          'Descubra afinidades com outros membros'
+        ]
+      },
+      {
+        tag: 'PRIVACIDADE TOTAL NO 1 A 1',
+        title: 'Bate-Papo Privado Blindado',
+        desc: 'Encontrou alguém com papo interessante? Abra uma conversa individual e segura com suporte completo a áudio, fotos e figurinhas.',
+        img: './screenshot-chat.png',
+        features: [
+          'Mensagens instantâneas e notificações sonoras',
+          'Envio de áudios cristalinos e figurinhas animadas',
+          'Proteção de fotos com visualização segura'
+        ]
+      },
+      {
+        tag: 'VOZ EM TEMPO REAL',
+        title: 'Salas com Áudio & Rádio ao Vivo',
+        desc: 'Ouça transmissões de áudio em tempo real, vote nas enquetes da sala e participe das resenhas mais animadas.',
+        img: './screenshot-live.png',
+        features: [
+          'Áudio com baixíssimo consumo de dados móveis',
+          'Votações e enquetes interativas ao vivo',
+          'Experiência imersiva de comunidade'
+        ]
+      }
+    ];
+
+    function switchTab(index) {
+      const tabs = document.querySelectorAll('.showcase-tab');
+      tabs.forEach((t, i) => {
+        if (i === index) t.classList.add('active');
+        else t.classList.remove('active');
+      });
+
+      const d = showcaseData[index];
+      const img = document.getElementById('showcaseImage');
+      img.style.opacity = '0';
+      setTimeout(() => {
+        img.src = d.img;
+        document.getElementById('showcaseTag').innerText = d.tag;
+        document.getElementById('showcaseTitle').innerText = d.title;
+        document.getElementById('showcaseDesc').innerText = d.desc;
+        const ul = document.getElementById('showcaseFeatures');
+        ul.innerHTML = d.features.map(f => `<li><span class="check-circle">✓</span> ${f}</li>`).join('');
+        img.style.opacity = '1';
+      }, 150);
+    }
+
+    function toggleFaqItem(btn) {
+      const item = btn.parentElement;
+      item.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
