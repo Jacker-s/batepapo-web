@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Página não encontrada — BP Chat Anônimo</title>
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <style>
     body {
       background: #0d0814;
@@ -43,14 +43,18 @@
     }
   </style>
   <script>
-    // Smart redirect for extensionless URLs on GitHub Pages
+    // Smart redirect to clean URLs without .html
     const path = window.location.pathname.toLowerCase();
     if (path.includes('delete') || path.includes('excluir')) {
-      window.location.replace('/delete-account.html');
+      window.location.replace('/delete-account');
     } else if (path.includes('privacy') || path.includes('privacidade')) {
-      window.location.replace('/privacy.html');
-    } else if (path.includes('download') || path.includes('landing')) {
-      window.location.replace('/landing.html');
+      window.location.replace('/privacy');
+    } else if (path.includes('download')) {
+      window.location.replace('/download');
+    } else if (path.includes('landing')) {
+      window.location.replace('/landing');
+    } else if (path.endsWith('.html')) {
+      window.location.replace(path.replace(/\.html$/, ''));
     }
   </script>
 </head>
@@ -58,9 +62,9 @@
   <div class="box">
     <h1>BP Chat Anônimo</h1>
     <p>A página que você procura foi movida ou não está disponível.</p>
-    <a href="/landing.html" class="btn">Página Inicial</a>
-    <a href="/delete-account.html" class="btn btn-secondary">Exclusão de Conta</a>
-    <a href="/privacy.html" class="btn btn-secondary">Privacidade</a>
+    <a href="/" class="btn">Página Inicial</a>
+    <a href="/delete-account" class="btn btn-secondary">Exclusão de Conta</a>
+    <a href="/privacy" class="btn btn-secondary">Privacidade</a>
   </div>
 </body>
 </html>
