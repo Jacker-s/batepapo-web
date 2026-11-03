@@ -1,70 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Página não encontrada — BP Chat Anônimo</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <style>
-    body {
-      background: #0d0814;
-      color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      text-align: center;
-      padding: 20px;
-    }
-    .box {
-      max-width: 480px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 36px 24px;
-    }
-    h1 { font-size: 32px; margin-bottom: 12px; }
-    p { color: rgba(255, 255, 255, 0.7); margin-bottom: 24px; font-size: 15px; }
-    .btn {
-      display: inline-block;
-      background: #ff2a68;
-      color: #fff;
-      text-decoration: none;
-      padding: 12px 24px;
-      border-radius: 12px;
-      font-weight: 700;
-      margin: 6px;
-    }
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-    }
-  </style>
-  <script>
-    // Smart redirect to clean URLs without .html
-    const path = window.location.pathname.toLowerCase();
-    if (path.includes('delete') || path.includes('excluir')) {
-      window.location.replace('/delete-account');
-    } else if (path.includes('privacy') || path.includes('privacidade')) {
-      window.location.replace('/privacy');
-    } else if (path.includes('download')) {
-      window.location.replace('/download');
-    } else if (path.includes('landing')) {
-      window.location.replace('/landing');
-    } else if (path.endsWith('.html')) {
-      window.location.replace(path.replace(/\.html$/, ''));
-    }
-  </script>
-</head>
-<body>
-  <div class="box">
-    <h1>BP Chat Anônimo</h1>
-    <p>A página que você procura foi movida ou não está disponível.</p>
-    <a href="/" class="btn">Página Inicial</a>
-    <a href="/delete-account" class="btn btn-secondary">Exclusão de Conta</a>
-    <a href="/privacy" class="btn btn-secondary">Privacidade</a>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>Bate-Papo Anônimo - Serviço Encerrado</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: radial-gradient(circle at 50% 30%, #1e1330 0%, #0d0814 100%);
+        color: #ffffff;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .card {
+        background: rgba(25, 17, 36, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        max-width: 520px;
+        width: 100%;
+        border-radius: 24px;
+        padding: 44px 32px;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      }
+      .icon-badge {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 24px auto;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(168, 85, 247, 0.2));
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+      }
+      h1 {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        margin-bottom: 14px;
+        background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .status-tag {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        background: rgba(239, 68, 68, 0.15);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      p {
+        color: #94a3b8;
+        font-size: 15px;
+        line-height: 1.7;
+        margin-bottom: 20px;
+      }
+      .highlight {
+        color: #e2e8f0;
+        font-weight: 500;
+      }
+      .footer {
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 13px;
+        color: #64748b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="icon-badge">🛑</div>
+      <div class="status-tag">Serviço Encerrado</div>
+      <h1>Bate-Papo Anônimo</h1>
+      <p>
+        Informamos que o aplicativo e a plataforma web do <span class="highlight">Bate-Papo Anônimo (BP)</span> encerraram oficialmente suas operações e serviços.
+      </p>
+      <p>
+        Todos os servidores e bancos de dados foram desconectados e os dados de usuários foram totalmente purgados em respeito à privacidade e segurança de todos.
+      </p>
+      <p>
+        Agradecemos imensamente a todos que participaram, interagiram e fizeram parte da nossa história e comunidade!
+      </p>
+      <div class="footer">
+        BP • Bate-Papo Anônimo
+      </div>
+    </div>
+  </body>
 </html>
